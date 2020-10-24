@@ -17,7 +17,42 @@ class AbstractItem(core_models.TimeStampedModel):
 
 
 class RoomType(AbstractItem):
-    pass
+    """ RoomType Object Definition """
+
+    class Meta:
+        verbose_name = 'Room Type'
+
+
+class Amenity(AbstractItem):
+    """ Amenity Object Definition """
+
+    class Meta:
+        verbose_name_plural = 'Amenities'
+
+
+class Facility(AbstractItem):
+    """ Facility Object Definition """
+
+    class Meta:
+        verbose_name_plural = 'Facilities'
+
+
+class HouseRule(AbstractItem):
+    """  HouseRule Model Definition """
+
+    class Meta:
+        verbose_name = 'House Rule'
+
+
+class Photo(core_models.TimeStampedModel):
+    """ Photo Model Definition  """
+
+    caption = models.CharField(max_length=80)
+    file = models.ImageField()
+    room = models.ForeignKey("Room", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.caption
 
 
 class Room(core_models.TimeStampedModel):
@@ -37,7 +72,10 @@ class Room(core_models.TimeStampedModel):
     check_out = models.TimeField()
     instant_book = models.BooleanField(default=False)
     host = models.ForeignKey(users_models.User, on_delete=models.CASCADE)
-    room_type = models.ManyToManyField(RoomType, blank=True)
+    room_type = models.ForeignKey(RoomType, on_delete=models.SET_NULL, null=True)
+    amenities = models.ManyToManyField(Amenity, blank=True)
+    Facilities = models.ManyToManyField(Facility, blank=True)
+    house_rules = models.ManyToManyField(HouseRule, blank=True)
 
     def __str__(self):
         return self.name
