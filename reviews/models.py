@@ -1,7 +1,7 @@
 from django.db import models
 from core import models as core_models
 from rooms.models import Room
-from users.models import User
+from users import models as users_models
 
 
 class Review(core_models.TimeStampedModel):
@@ -13,7 +13,7 @@ class Review(core_models.TimeStampedModel):
     location = models.IntegerField()
     check_in = models.IntegerField()
     values = models.IntegerField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(users_models.User, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
     def __str__(self):
